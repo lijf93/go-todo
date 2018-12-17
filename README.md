@@ -5,7 +5,7 @@
 / /_/ / /_/ /_____/ / / /_/ / /_/ / /_/ /
 \____/\____/     /_/  \____/\__,_/\____/ 
 
-A command line version todo list app in Golang.
+A cli todo list app in Golang.
 ```
 [![](https://img.shields.io/github/license/lijf93/go-todo.svg)](https://github.com/lijf93/go-todo/blob/master/LICENSE)
 
