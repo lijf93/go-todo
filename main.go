@@ -1,22 +1,17 @@
 package main
 
 import (
-	"flag"
-	"fmt"
+	"github.com/urfave/cli"
+	"os"
 )
 
 func main() {
-	versionFlag := flag.Bool("v", false, "display version info")
-	flag.Parse()
-	if *versionFlag {
-		fmt.Println(green(LOGO))
-		fmt.Printf(SOURCE, VERSION)
-		return
-	}
-
-	fmt.Println(green(LOGO))
-}
-
-func green(str string) string {
-	return fmt.Sprintf("\x1b[0;32m%s\x1b[0m", str)
+	app := cli.NewApp()
+	app.Name = logo
+	app.Version = "v0.1.0"
+	app.Usage = "A todo list cli application"
+	app.Author = "lijf93"
+	app.Email = "lijf93.hz@outlook.com"
+	app.Commands = []cli.Command{}
+	app.Run(os.Args)
 }
