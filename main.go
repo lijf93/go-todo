@@ -5,23 +5,16 @@ import (
 	"fmt"
 )
 
-const (
-	IconGood = "✔"
-	IconBad  = "✗"
-)
-
-var version = "v0.1.0"
-
 func main() {
 	versionFlag := flag.Bool("v", false, "display version info")
 	flag.Parse()
 	if *versionFlag {
-		fmt.Println(green(logo))
-		fmt.Printf(source, version)
+		fmt.Println(green(LOGO))
+		fmt.Printf(SOURCE, VERSION)
 		return
 	}
 
-	fmt.Println(green(logo))
+	fmt.Println(green(LOGO))
 }
 
 func green(str string) string {

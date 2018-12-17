@@ -1,16 +1,24 @@
 package main
 
-var (
-	logo = `
+const (
+	LOGO = `
    ______          ______          __    
   / ____/___      /_  __/___  ____/ /___ 
  / / __/ __ \______/ / / __ \/ __  / __ \
 / /_/ / /_/ /_____/ / / /_/ / /_/ / /_/ /
 \____/\____/     /_/  \____/\__,_/\____/ 
 
+==========================================
+
 `
-	source = `
-nba-live %s
+	SOURCE = `
+go-todo %s
 https://github.com/lijf93/go-todo
 `
+
+	VERSION = "v0.1.0"
+
+	ICON_SUCCESS = "✔"
+
+	ICON_FAILED = "✗"
 )
