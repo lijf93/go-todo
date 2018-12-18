@@ -15,6 +15,7 @@ My first Golang application, in order to learn Golang syntax.
 ```go
 cd ~/go/src/go-todo
 go build
+./go-todo h
 ```
 
 ### ScreenShot
