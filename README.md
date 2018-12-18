@@ -23,28 +23,28 @@ go build
 
 ## Usage
 1. add
-```bash
-go-todo add test add
-go-todo a test add
-```
+    ```bash
+    go-todo add test add
+    go-todo a test add
+    ```
 
 2. done
-```bash
-go-todo done 1
-go-todo do 1
-```
+    ```bash
+    go-todo done 1
+    go-todo do 1
+    ```
 
 3. delete
-```bash
-go-todo delete 1
-go-todo del 1
-```
+    ```bash
+    go-todo delete 1
+    go-todo del 1
+    ```
 
 4. list
-```bash
-go-todo list
-go-todo l
-```
+    ```bash
+    go-todo list
+    go-todo l
+    ```
 
 ## Thanks
 * [urfave/cli](https://github.com/urfave/cli)
