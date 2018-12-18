@@ -18,29 +18,29 @@ go build
 ./go-todo h
 ```
 
-### ScreenShot
+## ScreenShot
 ![gotodo](https://github.com/lijf93/go-todo/blob/master/screenshot/gotodo-screenshot.png)
 
 ## Usage
-### add
+1. add
 ```bash
 go-todo add test add
 go-todo a test add
 ```
 
-### done
+2. done
 ```bash
 go-todo done 1
 go-todo do 1
 ```
 
-### delete
+3. delete
 ```bash
 go-todo delete 1
 go-todo del 1
 ```
 
-### list
+4. list
 ```bash
 go-todo list
 go-todo l
