@@ -18,7 +18,7 @@ go build
 ```
 
 ### ScreenShot
-![gotodo]()
+![gotodo](https://github.com/lijf93/go-todo/blob/master/screenshot/gotodo-screenshot.png)
 
 ### Thanks
 * [urfave/cli](https://github.com/urfave/cli)
