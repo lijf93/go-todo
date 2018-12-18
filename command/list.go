@@ -23,5 +23,5 @@ func list(c *cli.Context) error {
 
 func doList() {
 	db := getDB()
-	printAllTodo(db)
+	_ = printAllTodo(db)
 }

@@ -38,18 +38,18 @@ func doDelete(c *cli.Context) error {
 	id := c.Args()[0]
 	intId, err := strconv.Atoi(id)
 	if err != nil {
-		fmt.Printf("%s %s\n", red(IconBad), "ID SHOULD BE A INTEGER")
+		fmt.Printf("%s %s", red(IconBad), "Id should be a integer 😈")
 		return err
 	}
 	res, err := findById(intId, db)
 	if !res {
-		fmt.Printf("%s %s\n", red(IconBad), fmt.Sprintf("Go-Todo id = %d not exist", intId))
-		printAllTodo(db)
+		fmt.Printf("%s %s", red(IconBad), fmt.Sprintf("Go-Todo id=%d not exist 😈", intId))
+		_ = printAllTodo(db)
 	} else {
 		res, err := deleteById(intId, db)
 		if res {
-			fmt.Printf("%s %s\n", green(IconGood), fmt.Sprintf("Go-Todo delete %d success", intId))
-			printAllTodo(db)
+			fmt.Printf("%s %s", green(IconGood), fmt.Sprintf("Go-Todo delete %d success 🍻", intId))
+			_ = printAllTodo(db)
 		}
 
 		if err != nil {

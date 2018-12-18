@@ -32,6 +32,8 @@ const (
 	DoneById = `UPDATE todo_list SET is_done = ? WHERE id = ?`
 
 	DeleteById = `UPDATE todo_list SET is_deleted = ? WHERE id = ?`
+
+	CountNotDelete = `SELECT count(*) FROM todo_list WHERE is_deleted != 1`
 )
 
 func red(str string) string {
@@ -60,13 +62,14 @@ func addDB(content string, db *sql.DB) (bool, error) {
 }
 
 func findById(id int, db *sql.DB) (bool, error) {
-	stmt, err := db.Prepare(FindById)
+	rows, err := db.Query(FindById, id)
 	checkDbErr(err)
-	_, err = stmt.Exec(id)
-	if err != nil {
-		return false, err
-	} else {
+	res := rows.Next()
+	_ = rows.Close()
+	if res {
 		return true, err
+	} else {
+		return false, err
 	}
 }
 
@@ -86,7 +89,15 @@ func deleteById(id int, db *sql.DB) (bool, error) {
 	return rows > 0, err
 }
 
-func printAllTodo(db *sql.DB) {
+func printAllTodo(db *sql.DB) error {
+	var count int64
+	err := db.QueryRow(CountNotDelete).Scan(&count)
+	if count == 0 {
+		fmt.Printf("%s %s\n", green(IconGood), "You have already done all your todos 🍻")
+		if err != nil {
+			return err
+		}
+	}
 	rows, err := db.Query(QueryNotDelete)
 	checkDbErr(err)
 	var buf []string
@@ -101,19 +112,25 @@ func printAllTodo(db *sql.DB) {
 		}
 		buf = append(buf, fmt.Sprintf("[%s][%d] %s", green(prefix), Id, Content))
 	}
+	err = rows.Close()
 	fmt.Printf("%v\n", strings.Join(buf, "\n"))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func checkErr(err error) {
 	if err != nil {
-		fmt.Printf("%s %s\n", red(IconBad), "SYSTEM ERROR")
+		fmt.Printf("%s %s\n", red(IconBad), "SYSTEM ERROR 😈")
 		panic(err)
 	}
 }
 
 func checkDbErr(err error) {
 	if err != nil {
-		fmt.Printf("%s %s\n", red(IconBad), "DB ERROR")
+		fmt.Printf("%s %s\n", red(IconBad), "DB ERROR 😈")
 		panic(err)
 	}
 }
