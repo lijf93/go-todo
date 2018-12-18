@@ -11,7 +11,7 @@ A cli todo list app in Golang.
 
 My first Golang application, in order to learn Golang syntax.
 
-### Installation
+## Installation
 ```bash
 cd ~/go/src/go-todo
 go build
@@ -21,34 +21,34 @@ go build
 ### ScreenShot
 ![gotodo](https://github.com/lijf93/go-todo/blob/master/screenshot/gotodo-screenshot.png)
 
-### Usage
-#### add
+## Usage
+### add
 ```bash
 go-todo add test add
 go-todo a test add
 ```
 
-#### done
+### done
 ```bash
 go-todo done 1
 go-todo do 1
 ```
 
-#### delete
+### delete
 ```bash
 go-todo delete 1
 go-todo del 1
 ```
 
-#### list
+### list
 ```bash
 go-todo list
 go-todo l
 ```
 
-### Thanks
+## Thanks
 * [urfave/cli](https://github.com/urfave/cli)
 * [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3)
 
-### License
+## License
 [MIT License](https://github.com/lijf93/go-todo/blob/master/LICENSE)
