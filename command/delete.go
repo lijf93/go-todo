@@ -7,16 +7,16 @@ import (
 )
 
 var Delete = cli.Command{
-	Name:      "delete",
+	Name:      "deleteTodo",
 	Usage:     "Delete a todo",
-	UsageText: "go-todo delete [id] / go-todo del [id]",
+	UsageText: "go-todo deleteTodo [id] / go-todo del [id]",
 	ShortName: "del",
-	Action:    delete,
+	Action:    deleteTodo,
 }
 
-func delete(c *cli.Context) error {
+func deleteTodo(c *cli.Context) error {
 	if c.NArg() < 1 {
-		err := cli.ShowCommandHelp(c, "delete")
+		err := cli.ShowCommandHelp(c, "deleteTodo")
 		if err != nil {
 			return err
 		}
@@ -49,7 +49,7 @@ func doDelete(c *cli.Context) error {
 	} else {
 		res, err := deleteById(intId, db)
 		if res {
-			fmt.Printf("%s %s\n", green(IconGood), fmt.Sprintf("Go-Todo delete %d success 🍻", intId))
+			fmt.Printf("%s %s\n", green(IconGood), fmt.Sprintf("Go-Todo deleteTodo %d success 🍻", intId))
 			_ = printAllTodo(db)
 		}
 
