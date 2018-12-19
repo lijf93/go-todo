@@ -19,7 +19,7 @@ const (
 	IconBad = "✗"
 )
 
-var SuccessEmoji = []string{"🎉", "🍻", "😊", "🤡"}
+var SuccessEmoji = []string{"🎉", "🍻", "😊", "🤡", "🎄"}
 var FailedEmoji = []string{"😈", "💥", "😭", "💣"}
 
 const (
