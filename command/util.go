@@ -128,7 +128,7 @@ func printAllTodo(db *sql.DB) error {
 		} else {
 			prefix = " "
 		}
-		buf = append(buf, fmt.Sprintf("[%s][%d] %s", green(prefix), Id, Content))
+		buf = append(buf, fmt.Sprintf("%s[%d] %s", green(prefix), Id, Content))
 	}
 	err = rows.Close()
 	fmt.Printf("%v\n", strings.Join(buf, "\n"))
