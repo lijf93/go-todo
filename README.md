@@ -62,6 +62,7 @@ go build
 * [urfave/cli](https://github.com/urfave/cli)
 * [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3)
 * [fatih/color](https://github.com/fatih/color)
+* [mitchellh/go-homedir](https://github.com/mitchellh/go-homedir)
 
 ## License
 [MIT License](https://github.com/lijf93/go-todo/blob/master/LICENSE)

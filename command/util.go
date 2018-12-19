@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/mitchellh/go-homedir"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -54,7 +55,8 @@ func green(str string) string {
 }
 
 func getDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "./gotodo.db")
+	homePath, _ := homedir.Dir()
+	db, err := sql.Open("sqlite3", homePath+"/gotodo.db")
 	checkDbErr(err)
 	_, err = db.Exec(CreateTable)
 	checkDbErr(err)
