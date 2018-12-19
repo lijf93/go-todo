@@ -33,14 +33,26 @@ go build
     go-todo done 1
     go-todo do 1
     ```
-
-3. delete
+      
+3. undone
+    ```bash
+    go-todo undone 1
+    go-todo un 1
+    ```
+      
+4. edit
+    ```bash
+    go-todo edit 1 test undone
+    go-todo e 1 test undone
+    ```
+    
+5. delete
     ```bash
     go-todo delete 1
     go-todo del 1
     ```
 
-4. list
+6. list
     ```bash
     go-todo list
     go-todo l

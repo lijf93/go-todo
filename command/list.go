@@ -7,6 +7,7 @@ import (
 var List = cli.Command{
 	Name:      "list",
 	Usage:     "List todos",
+	UsageText: "go-todo list / go-todo l",
 	ShortName: "l",
 	Action:    list,
 }

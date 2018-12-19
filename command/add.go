@@ -9,6 +9,7 @@ import (
 var Add = cli.Command{
 	Name:      "add",
 	Usage:     "Add a todo",
+	UsageText: "go-todo add [content] / go-todo a [content]",
 	ShortName: "a",
 	Action:    add,
 }

@@ -29,9 +29,11 @@ const (
 
 	FindById = `SELECT id, content, is_done FROM todo_list WHERE id = ?`
 
-	DoneById = `UPDATE todo_list SET is_done = ? WHERE id = ?`
+	UpdateDoneStatusById = `UPDATE todo_list SET is_done = ? WHERE id = ?`
 
 	DeleteById = `UPDATE todo_list SET is_deleted = ? WHERE id = ?`
+
+	EditById = `UPDATE todo_list SET content = ? WHERE id = ?`
 
 	CountNotDelete = `SELECT count(*) FROM todo_list WHERE is_deleted != 1`
 )
@@ -74,9 +76,17 @@ func findById(id int, db *sql.DB) (bool, error) {
 }
 
 func doneById(id int, db *sql.DB) (bool, error) {
-	stmt, err := db.Prepare(DoneById)
+	stmt, err := db.Prepare(UpdateDoneStatusById)
 	checkDbErr(err)
 	res, err := stmt.Exec(1, id)
+	rows, err := res.RowsAffected()
+	return rows > 0, err
+}
+
+func undoneById(id int, db *sql.DB) (bool, error) {
+	stmt, err := db.Prepare(UpdateDoneStatusById)
+	checkDbErr(err)
+	res, err := stmt.Exec(0, id)
 	rows, err := res.RowsAffected()
 	return rows > 0, err
 }
@@ -85,6 +95,14 @@ func deleteById(id int, db *sql.DB) (bool, error) {
 	stmt, err := db.Prepare(DeleteById)
 	checkDbErr(err)
 	res, err := stmt.Exec(1, id)
+	rows, err := res.RowsAffected()
+	return rows > 0, err
+}
+
+func editById(id int, content string, db *sql.DB) (bool, error) {
+	stmt, err := db.Prepare(EditById)
+	checkDbErr(err)
+	res, err := stmt.Exec(content, id)
 	rows, err := res.RowsAffected()
 	return rows > 0, err
 }

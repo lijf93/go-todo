@@ -9,6 +9,7 @@ import (
 var Delete = cli.Command{
 	Name:      "delete",
 	Usage:     "Delete a todo",
+	UsageText: "go-todo delete [id] / go-todo del [id]",
 	ShortName: "del",
 	Action:    delete,
 }

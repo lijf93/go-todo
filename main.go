@@ -17,7 +17,9 @@ func main() {
 		command.Add,
 		command.List,
 		command.Done,
+		command.Undone,
 		command.Delete,
+		command.Edit,
 	}
 	app.Run(os.Args)
 }

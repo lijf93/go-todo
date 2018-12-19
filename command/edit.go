@@ -4,19 +4,20 @@ import (
 	"fmt"
 	"github.com/urfave/cli"
 	"strconv"
+	"strings"
 )
 
-var Done = cli.Command{
-	Name:      "done",
-	Usage:     "Done a todo",
-	UsageText: "go-todo done [id] / go-todo do [id]",
-	ShortName: "do",
-	Action:    done,
+var Edit = cli.Command{
+	Name:      "edit",
+	Usage:     "Edit a todo",
+	UsageText: "go-todo edit [id] [content] / go-todo e [id] [content]",
+	ShortName: "e",
+	Action:    edit,
 }
 
-func done(c *cli.Context) error {
-	if c.NArg() < 1 {
-		err := cli.ShowCommandHelp(c, "done")
+func edit(c *cli.Context) error {
+	if c.NArg() < 2 {
+		err := cli.ShowCommandHelp(c, "edit")
 		if err != nil {
 			return err
 		}
@@ -24,7 +25,7 @@ func done(c *cli.Context) error {
 		return nil
 	}
 
-	err := doDone(c)
+	err := doEdit(c)
 
 	if err != nil {
 		checkDbErr(err)
@@ -34,7 +35,7 @@ func done(c *cli.Context) error {
 	return nil
 }
 
-func doDone(c *cli.Context) error {
+func doEdit(c *cli.Context) error {
 	db := getDB()
 	id := c.Args()[0]
 	intId, err := strconv.Atoi(id)
@@ -47,9 +48,14 @@ func doDone(c *cli.Context) error {
 		fmt.Printf("%s %s\n", red(IconBad), fmt.Sprintf("Go-Todo id=%d not exist 😈", intId))
 		_ = printAllTodo(db)
 	} else {
-		res, err := doneById(intId, db)
+		newContent := strings.Trim(strings.Join(c.Args()[1:], " "), " ")
+		if newContent == "" {
+			fmt.Printf("%s %s\n", red(IconBad), "Go-Todo content is empty 😈")
+			return nil
+		}
+		res, err := editById(intId, newContent, db)
 		if res {
-			fmt.Printf("%s %s\n", green(IconGood), fmt.Sprintf("Go-Todo done %d success 🍻", intId))
+			fmt.Printf("%s %s\n", green(IconGood), fmt.Sprintf("Go-Todo edit %d success 🍻", intId))
 			_ = printAllTodo(db)
 		}
 

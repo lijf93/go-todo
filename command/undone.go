@@ -6,17 +6,17 @@ import (
 	"strconv"
 )
 
-var Done = cli.Command{
-	Name:      "done",
-	Usage:     "Done a todo",
-	UsageText: "go-todo done [id] / go-todo do [id]",
-	ShortName: "do",
-	Action:    done,
+var Undone = cli.Command{
+	Name:      "undone",
+	Usage:     "Undone a todo",
+	UsageText: "go-todo undone [id] / go-todo un [id]",
+	ShortName: "un",
+	Action:    undone,
 }
 
-func done(c *cli.Context) error {
+func undone(c *cli.Context) error {
 	if c.NArg() < 1 {
-		err := cli.ShowCommandHelp(c, "done")
+		err := cli.ShowCommandHelp(c, "undone")
 		if err != nil {
 			return err
 		}
@@ -24,7 +24,7 @@ func done(c *cli.Context) error {
 		return nil
 	}
 
-	err := doDone(c)
+	err := doUndone(c)
 
 	if err != nil {
 		checkDbErr(err)
@@ -34,7 +34,7 @@ func done(c *cli.Context) error {
 	return nil
 }
 
-func doDone(c *cli.Context) error {
+func doUndone(c *cli.Context) error {
 	db := getDB()
 	id := c.Args()[0]
 	intId, err := strconv.Atoi(id)
@@ -47,9 +47,9 @@ func doDone(c *cli.Context) error {
 		fmt.Printf("%s %s\n", red(IconBad), fmt.Sprintf("Go-Todo id=%d not exist 😈", intId))
 		_ = printAllTodo(db)
 	} else {
-		res, err := doneById(intId, db)
+		res, err := undoneById(intId, db)
 		if res {
-			fmt.Printf("%s %s\n", green(IconGood), fmt.Sprintf("Go-Todo done %d success 🍻", intId))
+			fmt.Printf("%s %s\n", green(IconGood), fmt.Sprintf("Go-Todo undone %d success 🍻", intId))
 			_ = printAllTodo(db)
 		}
 
