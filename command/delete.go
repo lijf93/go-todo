@@ -16,7 +16,7 @@ var Delete = cli.Command{
 
 func deleteTodo(c *cli.Context) error {
 	if c.NArg() < 1 {
-		err := cli.ShowCommandHelp(c, "deleteTodo")
+		err := cli.ShowCommandHelp(c, "delete")
 		if err != nil {
 			return err
 		}
@@ -51,7 +51,7 @@ func doDelete(c *cli.Context) error {
 	} else {
 		res, err := deleteById(intId, db)
 		if res {
-			fmt.Printf("%s %s %s\n", green(IconGood), fmt.Sprintf("Go-Todo deleteTodo %d success", intId), randomSuccessEmoji())
+			fmt.Printf("%s %s %s\n", green(IconGood), fmt.Sprintf("Go-Todo delete %d success", intId), randomSuccessEmoji())
 			_ = printAllTodo(db)
 		}
 
