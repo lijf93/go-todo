@@ -40,22 +40,22 @@ func doEdit(c *cli.Context) error {
 	id := c.Args()[0]
 	intId, err := strconv.Atoi(id)
 	if err != nil {
-		fmt.Printf("%s %s\n", red(IconBad), "Id must be a integer 😈")
+		fmt.Printf("%s %s %s\n", red(IconBad), "Id must be a integer", randomFailedEmoji())
 		return err
 	}
 	res, err := findById(intId, db)
 	if !res {
-		fmt.Printf("%s %s\n", red(IconBad), fmt.Sprintf("Go-Todo id=%d not exist 😈", intId))
+		fmt.Printf("%s %s %s\n", red(IconBad), fmt.Sprintf("Go-Todo id=%d not exist", intId), randomFailedEmoji())
 		_ = printAllTodo(db)
 	} else {
 		newContent := strings.Trim(strings.Join(c.Args()[1:], " "), " ")
 		if newContent == "" {
-			fmt.Printf("%s %s\n", red(IconBad), "Go-Todo content is empty 😈")
+			fmt.Printf("%s %s %s\n", red(IconBad), "Go-Todo content is empty", randomFailedEmoji())
 			return nil
 		}
 		res, err := editById(intId, newContent, db)
 		if res {
-			fmt.Printf("%s %s\n", green(IconGood), fmt.Sprintf("Go-Todo edit %d success 🍻", intId))
+			fmt.Printf("%s %s %s\n", green(IconGood), fmt.Sprintf("Go-Todo edit %d success", intId), randomSuccessEmoji())
 			_ = printAllTodo(db)
 		}
 

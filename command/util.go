@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	_ "github.com/mattn/go-sqlite3"
+	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -15,6 +17,9 @@ const (
 	// IconBad is failed symbol
 	IconBad = "✗"
 )
+
+var SuccessEmoji = []string{"🎉", "🍻", "😊", "🤡"}
+var FailedEmoji = []string{"😈", "💥", "😭", "💣"}
 
 const (
 	CreateTable = `
@@ -113,7 +118,7 @@ func printAllTodo(db *sql.DB) error {
 	var count int64
 	err := db.QueryRow(CountNotDelete).Scan(&count)
 	if count == 0 {
-		fmt.Printf("%s %s\n", green(IconGood), "You have already done all your todos 🍻")
+		fmt.Printf("%s %s %s\n", green(IconGood), "You have already done all your todos", randomSuccessEmoji())
 		if err != nil {
 			return err
 		}
@@ -143,12 +148,22 @@ func printAllTodo(db *sql.DB) error {
 
 func checkErr(err error) {
 	if err != nil {
-		fmt.Printf("%s %s\n", red(IconBad), "SYSTEM ERROR 😈")
+		fmt.Printf("%s %s %s\n", red(IconBad), "SYSTEM ERROR", randomFailedEmoji())
 	}
 }
 
 func checkDbErr(err error) {
 	if err != nil {
-		fmt.Printf("%s %s\n", red(IconBad), "DB ERROR 😈")
+		fmt.Printf("%s %s %s\n", red(IconBad), "DB ERROR", randomFailedEmoji())
 	}
+}
+
+func randomFailedEmoji() string {
+	rand.Seed(time.Now().UnixNano())
+	return FailedEmoji[rand.Intn(len(FailedEmoji))]
+}
+
+func randomSuccessEmoji() string {
+	rand.Seed(time.Now().UnixNano())
+	return SuccessEmoji[rand.Intn(len(SuccessEmoji))]
 }

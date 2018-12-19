@@ -39,7 +39,7 @@ func doAdd(c *cli.Context) error {
 	content := strings.Join(c.Args()[0:], " ")
 	res, err := addDB(content, db)
 	if res {
-		fmt.Printf("%s %s\n", green(IconGood), "Go-Todo add success 🍻")
+		fmt.Printf("%s %s %s\n", green(IconGood), "Go-Todo add success", randomSuccessEmoji())
 		_ = printAllTodo(db)
 	}
 
