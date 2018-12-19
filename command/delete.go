@@ -55,14 +55,8 @@ func doDelete(c *cli.Context) error {
 			_ = printAllTodo(db)
 		}
 
-		if err != nil {
-			return err
-		}
-	}
-
-	if err != nil {
 		return err
 	}
 
-	return nil
+	return err
 }
