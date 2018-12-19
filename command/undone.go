@@ -39,8 +39,8 @@ func doUndone(c *cli.Context) error {
 	id := c.Args()[0]
 	intId, err := strconv.Atoi(id)
 	if err != nil {
-		fmt.Printf("%s %s\n", red(IconBad), "Id should be a integer 😈")
-		return err
+		fmt.Printf("%s %s\n", red(IconBad), "Id must be a integer 😈")
+		return nil
 	}
 	res, err := findById(intId, db)
 	if !res {
@@ -53,14 +53,8 @@ func doUndone(c *cli.Context) error {
 			_ = printAllTodo(db)
 		}
 
-		if err != nil {
-			return err
-		}
-	}
-
-	if err != nil {
 		return err
 	}
 
-	return nil
+	return err
 }

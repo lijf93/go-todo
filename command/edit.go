@@ -40,7 +40,7 @@ func doEdit(c *cli.Context) error {
 	id := c.Args()[0]
 	intId, err := strconv.Atoi(id)
 	if err != nil {
-		fmt.Printf("%s %s\n", red(IconBad), "Id should be a integer 😈")
+		fmt.Printf("%s %s\n", red(IconBad), "Id must be a integer 😈")
 		return err
 	}
 	res, err := findById(intId, db)
@@ -59,14 +59,8 @@ func doEdit(c *cli.Context) error {
 			_ = printAllTodo(db)
 		}
 
-		if err != nil {
-			return err
-		}
-	}
-
-	if err != nil {
 		return err
 	}
 
-	return nil
+	return err
 }

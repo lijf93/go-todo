@@ -3,7 +3,9 @@ package command
 import (
 	"database/sql"
 	"fmt"
+	"github.com/fatih/color"
 	_ "github.com/mattn/go-sqlite3"
+	"strconv"
 	"strings"
 )
 
@@ -39,11 +41,11 @@ const (
 )
 
 func red(str string) string {
-	return fmt.Sprintf("\x1b[0;31m%s\x1b[0m", str)
+	return color.RedString(str)
 }
 
 func green(str string) string {
-	return fmt.Sprintf("\x1b[0;32m%s\x1b[0m", str)
+	return color.GreenString(str)
 }
 
 func getDB() *sql.DB {
@@ -128,7 +130,7 @@ func printAllTodo(db *sql.DB) error {
 		} else {
 			prefix = " "
 		}
-		buf = append(buf, fmt.Sprintf("%s[%d] %s", green(prefix), Id, Content))
+		buf = append(buf, fmt.Sprintf("%s[%s] %s", color.GreenString(prefix), color.CyanString(strconv.Itoa(Id)), Content))
 	}
 	err = rows.Close()
 	fmt.Printf("%v\n", strings.Join(buf, "\n"))
@@ -142,13 +144,11 @@ func printAllTodo(db *sql.DB) error {
 func checkErr(err error) {
 	if err != nil {
 		fmt.Printf("%s %s\n", red(IconBad), "SYSTEM ERROR 😈")
-		panic(err)
 	}
 }
 
 func checkDbErr(err error) {
 	if err != nil {
 		fmt.Printf("%s %s\n", red(IconBad), "DB ERROR 😈")
-		panic(err)
 	}
 }
