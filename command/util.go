@@ -27,23 +27,30 @@ const (
 		CREATE TABLE IF NOT EXISTS todo_list(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             content TEXT NULL,
-            is_done TINYINT(1) NULL,
-            is_deleted TINYINT(1) NULL
+            is_done TINYINT(1) DEFAULT 0,
+            is_deleted TINYINT(1) DEFAULT 0,
+            is_hide TINYINT(1) DEFAULT 0
         );`
 
-	AddToTable = `INSERT into todo_list(content, is_done, is_deleted) values(?,?,?)`
+	AddToTable = `INSERT into todo_list(content, is_done, is_deleted, is_hide) values(?,?,?,?)`
 
-	QueryNotDelete = `SELECT id, content, is_done FROM todo_list WHERE is_deleted != 1 ORDER BY id DESC, is_done ASC`
+	QueryNotDelete = `SELECT id, content, is_done FROM todo_list WHERE is_deleted != 1 and is_hide != 1 ORDER BY id DESC, is_done ASC`
+
+	QueryHide = `SELECT id, content, is_done FROM todo_list WHERE is_hide = 1 ORDER BY id DESC, is_done ASC`
 
 	FindById = `SELECT id, content, is_done FROM todo_list WHERE id = ?`
 
 	UpdateDoneStatusById = `UPDATE todo_list SET is_done = ? WHERE id = ?`
 
+	UpdateHideStatusById = `UPDATE todo_list SET is_hide = ? WHERE id = ?`
+
 	DeleteById = `UPDATE todo_list SET is_deleted = ? WHERE id = ?`
 
 	EditById = `UPDATE todo_list SET content = ? WHERE id = ?`
 
-	CountNotDelete = `SELECT count(*) FROM todo_list WHERE is_deleted != 1`
+	CountNotDelete = `SELECT count(*) FROM todo_list WHERE is_deleted != 1 and is_hide != 1`
+
+	CountHide = `SELECT count(*) FROM todo_list WHERE is_hide = 1`
 )
 
 func red(str string) string {
@@ -67,7 +74,7 @@ func getDB() *sql.DB {
 func addDB(content string, db *sql.DB) (bool, error) {
 	stmt, err := db.Prepare(AddToTable)
 	checkDbErr(err)
-	res, err := stmt.Exec(content, 0, 0)
+	res, err := stmt.Exec(content, 0, 0, 0)
 	id, err := res.LastInsertId()
 	return id > 0, err
 }
@@ -116,6 +123,53 @@ func editById(id int, content string, db *sql.DB) (bool, error) {
 	return rows > 0, err
 }
 
+func hideById(id int, db *sql.DB) (bool, error) {
+	stmt, err := db.Prepare(UpdateHideStatusById)
+	checkDbErr(err)
+	res, err := stmt.Exec(1, id)
+	rows, err := res.RowsAffected()
+	return rows > 0, err
+}
+
+func unHideById(id int, db *sql.DB) (bool, error) {
+	stmt, err := db.Prepare(UpdateHideStatusById)
+	checkDbErr(err)
+	res, err := stmt.Exec(0, id)
+	rows, err := res.RowsAffected()
+	return rows > 0, err
+}
+func printAllHideTodo(db *sql.DB) error {
+	var count int64
+	err := db.QueryRow(CountHide).Scan(&count)
+	if count == 0 {
+		fmt.Printf("%s %s %s\n", green(IconGood), "No hiden todos", randomSuccessEmoji())
+		if err != nil {
+			return err
+		}
+	}
+	rows, err := db.Query(QueryHide)
+	checkDbErr(err)
+	var buf []string
+	for rows.Next() {
+		var prefix string
+		err = rows.Scan(&Id, &Content, &IsDone)
+		checkErr(err)
+		if IsDone == 1 {
+			prefix = IconGood
+		} else {
+			prefix = " "
+		}
+		buf = append(buf, fmt.Sprintf("%s[%s] %s", color.GreenString(prefix), color.CyanString(strconv.Itoa(Id)), Content))
+	}
+	err = rows.Close()
+	fmt.Printf("%v\n", strings.Join(buf, "\n"))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func printAllTodo(db *sql.DB) error {
 	var count int64
 	err := db.QueryRow(CountNotDelete).Scan(&count)
@@ -157,6 +211,7 @@ func checkErr(err error) {
 func checkDbErr(err error) {
 	if err != nil {
 		fmt.Printf("%s %s %s\n", red(IconBad), "DB ERROR", randomFailedEmoji())
+		panic(err)
 	}
 }
 

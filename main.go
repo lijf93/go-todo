@@ -20,6 +20,9 @@ func main() {
 		command.Undone,
 		command.Delete,
 		command.Edit,
+		command.Hide,
+		command.Unhide,
+		command.ListHide,
 	}
 	app.Run(os.Args)
 }
